@@ -1,6 +1,6 @@
 # SteamNCORD API Core v1.0(Beta)
 <h4></b>Please keep in mind, you use this plugin and this service AS IS, withouth any guaranties that everything will be OK.</b></h4><br>
-
+<h4 color=red>Warning ! You should have REST api Extension. You can take it <a href="https://forums.alliedmods.net/showthread.php?t=298024"here</a> </h4>
 <h5>Natives:</h5><br>
  <b>SNC_HasDiscordID(client)</b> - check if player have account at steamncord.xyz site.<br>
   <b>SNC_GetDiscordID(client, char[] string here)</b> - return player Discord ID as string.<br>
