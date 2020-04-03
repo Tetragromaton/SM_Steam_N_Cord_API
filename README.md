@@ -1,6 +1,4 @@
-# SteamNCORD API Core
- <h3>Steam&Cord API plugin for servers !</h3>
-<i><b>Steam & Cord Core v1.0 | An TETRADEV Service.</b></i>
+# SteamNCORD API Core v1.0(Beta)
 <h4></b>Please keep in mind, you use this plugin and this service AS IS, withouth any guaranties that everything will be OK.</b></h4><br>
 
 <h5>Natives:</h5><br>
