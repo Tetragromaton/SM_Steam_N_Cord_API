@@ -6,7 +6,7 @@
  <b>SNC_HasDiscordID(client)</b> - check if player have account at steamncord.xyz site.<br>
   <b>SNC_GetDiscordID(client, char[] string here)</b> - return player Discord ID as string.<br>
   <b>SNC_AreServerMember(client)</b> - check if player are member of your discord server defined in <b>SNC_Core.cfg</b><br>
-  <b>SNC_Has(client, char[] roleid)</b> - check if player has role on your server.<br>
+  <b>SNC_HasRoleID(client, char[] roleid)</b> - check if player has role on your server.<br>
 <h5>Config files</h5><br>
 <b>AS ONLY as you loaded plugin on server, modify SNC_Core.cfg config file in /cfg/sourcemod/ folder and insert your server discord ID in to it like: <u>SNC_ServerID "563362438154813450"</u><br> Then restart plugin and reconnect to server.
  
