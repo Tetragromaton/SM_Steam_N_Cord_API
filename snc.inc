@@ -13,3 +13,5 @@ native bool SNC_HasDiscordID(int client);
 native int SNC_GetDiscordID(int client, char[] variable);
 //Check, are user member of your Discord server, define your server ID before using. True - on yes, False - otherwise..
 native bool SNC_AreServerMember(int client);
+//Check, does user have role at your server or not.
+native bool SNC_HasRole(int client, char[] roleid);
