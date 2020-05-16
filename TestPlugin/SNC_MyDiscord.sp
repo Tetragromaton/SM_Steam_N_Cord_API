@@ -21,8 +21,15 @@ public Plugin myinfo =
 public void OnPluginStart()
 {
 	RegConsoleCmd("mydiscord", MyDiscord);
+	RegConsoleCmd("secretcmd", SecretCMD);
 }
-
+public Action SecretCMD(client,args)
+{
+	if(SNC_HasRole(client, "710790193208098816"))
+	{
+		PrintToChat(client, "ОНЛАЕН ЧЕЛЕЖИ)И)ЫА)Ы)");
+	} else PrintToChat(client, "Для выполнения этой команды у вас должна быть роль Разработчика на нашем дискорде.");
+}
 public Action MyDiscord(client,args)
 {
 	if(SNC_HasDiscordID(client))
