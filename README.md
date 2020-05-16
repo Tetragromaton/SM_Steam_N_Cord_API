@@ -1,4 +1,4 @@
-# SteamNCORD API Core v1.3(Beta)
+# SteamNCORD API Core v1.2(Beta)
 <h4></b>Please keep in mind, you use this plugin and this service AS IS, withouth any guaranties that everything will be OK.</b></h4><br>
 <h4 color=red>Warning ! You should have REST api Extension. You can take it <a href="https://forums.alliedmods.net/showthread.php?t=298024">here</a> </h4>
 <h4 color=red>Also because of laziness, an PersonalVars plugin is now need as dependecy plugin on your server, install it <a href="https://github.com/Tetragromaton/SM-pVars">here</a> </h4>
