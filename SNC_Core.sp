@@ -1,4 +1,4 @@
-//Steam & Cord Core v1.0 | An TETRADEV Service.
+//Steam & Cord Core v1.2 | An TETRADEV Service.
 //github.com/Tetragromaton.
 //Keep in mind that we are running with no sponsors, so the service could not work sometimes.
 //мени не бачу, я русске, мне впадлу делать русификацию, сделал сразу на английском, так что хз.
@@ -17,8 +17,12 @@
 
 //Warning ! URL must be in HTTP format with 228 port for API's, so never use site as usual with 228 port or else you risk your data to be f***ed.
 
+
+
 #include <sourcemod>
 #include <ripext>
+#include <json>
+#include <pVars>
 #define foreach(%0) for (int %0 = 1; %0 <= MaxClients; %0++) if (IsClientInGame(%0))
 HTTPClient httpClient;
 
@@ -33,9 +37,31 @@ public APLRes AskPluginLoad2(Handle hMyself, bool bLate, char[] sError, int iErr
 {
 	CreateNative("SNC_HasDiscordID", Native_HasID);
 	CreateNative("SNC_GetDiscordID", Native_GetDiscord);
+	CreateNative("SNC_HasRole", Native_HasRole);
 	CreateNative("SNC_AreServerMember", Native_AreMember);
 	RegPluginLibrary("snc");
 	return APLRes_Success;
+}
+public Native_HasRole(Handle hPlugin, int iNumParams)
+{
+	
+	int client;
+	client = GetNativeCell(1);
+	char RoleID[255];
+	char Wrapper[255];
+	GetNativeString(2, RoleID, sizeof(RoleID));
+	if(!StrEqual(g_sDiscordID[client], ""))
+	{
+		Format(Wrapper, sizeof(Wrapper), "SNC_ROLE_%s", RoleID);
+		//PrintToConsole(client, Wrapper);
+		int GLSK = pVar_GetValue(client, Wrapper);
+		//PrintToChatAll("GLSK %i", GLSK);
+		if(GLSK > 0)
+		{
+			return true;
+		} else return false;
+	}
+	return false;
 }
 public Native_HasID(Handle hPlugin, int iNumParams)
 {
@@ -178,9 +204,60 @@ public void OnGuildAuth(HTTPResponse response, any value)
 					if (StrEqual(Auth, Steamcheek))
 					{
 						g_bAreServerMember[X] = true;
+						SyncRolesWithGuild(X);
 						break;
 					}
 			}
 		}
 	}
 } 
+
+SyncRolesWithGuild(X)
+{
+	if(!StrEqual(g_sDiscordSERVER_ID, ""))
+	{
+			char FormatBUILDER[255];
+			char SID[255];
+			GetClientAuthId(X, AuthId_SteamID64, SID, sizeof(SID));
+			Format(FormatBUILDER, sizeof(FormatBUILDER), "api/getroles?userid=%s&serverid=%s", g_sDiscordID[X], g_sDiscordSERVER_ID);
+			httpClient.Get(FormatBUILDER, OnRolesCBS);
+			//PrintToChatAll("%s", FormatBUILDER);
+	}	
+}
+
+public void OnRolesCBS(HTTPResponse response, any value)
+{
+
+	if (response.Data == null) {
+		// Invalid JSON response
+		return;
+	}
+	JSONObject todo = view_as<JSONObject>(response.Data);
+	char Wrapper[1024];
+	char UserID[255];
+	todo.GetString("UID", UserID, sizeof(UserID));
+	char MaxROLES[36];
+	todo.GetString("MaxRoles", MaxROLES, sizeof(MaxROLES));
+	char TempROLEX[255];
+	
+	int TotalRoles = StringToInt(MaxROLES);
+	if(!StrEqual(UserID, ""))
+	{
+		foreach(X)
+		{
+			if(StrEqual(g_sDiscordID[X], UserID))
+			{
+				for (int i = 0; i <= TotalRoles; i++)
+				{
+					Format(Wrapper, sizeof(Wrapper), "%i", i);
+					
+					todo.GetString(Wrapper, TempROLEX, sizeof(TempROLEX));
+					//PrintToConsole(X, "Total ROS %i", TotalRoles);
+					Format(Wrapper, sizeof(Wrapper), "SNC_ROLE_%s", TempROLEX);
+					pVar_SetValue(X, Wrapper, 1);
+					//PrintToConsole(X, Wrapper);
+				}
+			}
+		}
+	}
+}
